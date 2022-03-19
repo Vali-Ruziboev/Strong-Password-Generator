@@ -5,22 +5,116 @@
 }
 body{
   min-width: 300px !important;
-  min-height: 500px !important;
+  min-height: 550px !important;
   max-width: 300px !important;
-  max-height: 500px !important;
+  max-height: 550px !important;
 }
-form{
+nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2.5rem;
+  width: 300px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 1rem;
+}
+nav svg{
+  cursor: pointer;
+}
+.main{
   width: 85%;
   display: block;
   margin: 0 auto;
   padding: 1rem 0;
+  padding-top: 3.5rem;
+  height: 100vh;
+}
+.inputs{
+  height: max-content;
+  padding: 1px 1rem;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
 }
 fieldset{
+  display: flex;
+  margin: 1rem 0;
+  padding: 0.2rem;
   width: 100%;
+  height: 3rem;
+  align-items: center;
   border-radius: 5px;
   border: 1px solid black;
-  padding: 0.2rem;
 }
 fieldset input{
   width: 100%;
+}
+input[type='range']{
+  -webkit-appearance: none;
+  background-color:var(--dark-text); 
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  background: var(--primary);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
+
+input[type='range']::-webkit-slider-runnable-track{
+  -webkit-appearance: none;
+  height: 15px;
+  background-color: transparent;
+}
+input[type='range']:active {
+  background:var(--icons);
+}
+
+
+legend{
+  display: flex;
+}
+legend svg{
+  fill:var(--icons);
+  cursor: pointer;
+}
+
+.checkboxes{
+  display: flex;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+}
+.result{
+  margin: 1rem 0;
+  padding: 0.5rem;
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+}
+.result input{
+  display: block;
+  width: 100%;
+  padding:0.3rem;
+  border: 1px solid var(--dark-text);
+  border-radius: 10px;
+}
+form button{
+  display: block;
+  margin: 0 auto;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
 }
