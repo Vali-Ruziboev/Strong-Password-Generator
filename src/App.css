@@ -5,9 +5,9 @@
 }
 body{
   min-width: 300px !important;
-  min-height: 550px !important;
+  min-height: 520px !important;
   max-width: 300px !important;
-  max-height: 550px !important;
+  max-height: 520px !important;
 }
 nav{
   position: fixed;
@@ -79,12 +79,19 @@ input[type='range']:active {
 
 legend{
   display: flex;
+  align-items: center;
+  width: 85%;
 }
 legend svg{
   fill:var(--icons);
   cursor: pointer;
 }
-
+legend div{
+  margin-left: auto;
+}
+.length{
+  color: var(--primary);
+}
 .checkboxes{
   display: flex;
   padding: 0.5rem;
@@ -94,18 +101,34 @@ legend svg{
   box-shadow: var(--shadow);
   border-radius: 10px;
 }
+.checkboxes label{
+  display: flex;
+  align-items: center;
+}
 .result{
   margin: 1rem 0;
   padding: 0.5rem;
   box-shadow: var(--shadow);
   border-radius: 10px;
 }
+.password{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .result input{
-  display: block;
-  width: 100%;
+  display: inline;
+  width: 85%;
   padding:0.3rem;
   border: 1px solid var(--dark-text);
   border-radius: 10px;
+}
+.result label{
+  display: flex;
+  width: 85%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.3rem;
 }
 form button{
   display: block;
@@ -116,5 +139,8 @@ form button{
   box-shadow: var(--shadow);
   background-color: var(--primary);
   color: white;
+  cursor: pointer;
+}
+svg{
   cursor: pointer;
 }
