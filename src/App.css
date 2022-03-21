@@ -25,7 +25,7 @@ nav svg{
   cursor: pointer;
 }
 .main{
-  width: 85%;
+  width: 88%;
   display: block;
   margin: 0 auto;
   padding: 1rem 0;
@@ -37,6 +37,7 @@ nav svg{
   padding: 1px 1rem;
   box-shadow: var(--shadow);
   border-radius: 10px;
+  background-color: white;
 }
 fieldset{
   display: flex;
@@ -80,7 +81,7 @@ input[type='range']:active {
 legend{
   display: flex;
   align-items: center;
-  width: 85%;
+  width: 98%;
 }
 legend svg{
   fill:var(--icons);
@@ -88,6 +89,11 @@ legend svg{
 }
 legend div{
   margin-left: auto;
+  
+}
+legend div span,
+.result label span{
+  font-size: 15px;
 }
 .length{
   color: var(--primary);
@@ -100,6 +106,7 @@ legend div{
   justify-content: space-between;
   box-shadow: var(--shadow);
   border-radius: 10px;
+  background-color: white;
 }
 .checkboxes label{
   display: flex;
@@ -110,6 +117,7 @@ legend div{
   padding: 0.5rem;
   box-shadow: var(--shadow);
   border-radius: 10px;
+  background-color: white;
 }
 .password{
   display: flex;
