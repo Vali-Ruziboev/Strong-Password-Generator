@@ -1,5 +1,5 @@
 :root{
-  --primary:rgb(71, 194, 92);
+  --primary:rgb(40, 204, 67);
   --dark-text:rgb(25, 28, 36);
   --light-text:rgb(244, 245, 246);
   --shadow:0 5px 12px 0px rgba(25, 28, 36, 0.2), 
@@ -14,4 +14,6 @@ body {
   font-size: 12px;
   font-weight: 700;
   color: var(--dark-text);
+  background-color: var(--light-text);
+  user-select: none;
 }
