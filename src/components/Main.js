@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 /* eslint-disable no-undef */
 
-let storage = chrome.storage.local;
-let data = {}
+// let storage = chrome.storage.local;
+// let data = {}
 
 const validateCount = (value)=>{
     if(value===undefined){
@@ -17,26 +17,47 @@ const Main = () => {
     const [digitCount, setDigitCount] = useState(0)
     const [symbolCount, setSymbolCount] = useState(0)
     const [passLength, setPassLength] = useState(0)
-    const handleCount = (e, Function, value)=>{
-        Function(Number(e.target.value))
-        data[value] = Number(e.target.value)
-        storage.set(data)
-        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-        })
+    // const handleCount = (e, Function, value)=>{
+    //     Function(Number(e.target.value))
+    //     data[value] = Number(e.target.value)
+    //     storage.set(data)
+    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
+    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+    //     })
+    // }
+    const generateUpperCase =()=>{
+        const random = Math.floor(Math.random()*26)+65
+        return String.fromCharCode(random)
     }
+    const generateLowerCase =()=>{
+        const random = Math.floor(Math.random()*26)+97
+        return String.fromCharCode(random)
+    }
+    const generateDigit = ()=>{
+        const random = Math.floor(Math.random()*10)+48
+        return String.fromCharCode(random)
+    }
+    const generateSymbol = ()=>{
+        const symbolsArr = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '[', ']', '^', '_', '`', '{', '|', '}', '~']
+        return symbolsArr[Math.floor(Math.random()*symbolsArr.length)]
+    }
+    generateUpperCase()
+    generateLowerCase()
+    generateDigit()
+    generateSymbol()
     const handleSubmit = (e)=>{
         e.preventDefault()
+        console.log(new Array(6));
     }
-    useEffect(()=>{
-        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-            setUppercaseCount(validateCount(data.uppercaseCount))
-            setLowercaseCount(validateCount(data.lowercaseCount))
-            setDigitCount(validateCount(data.digitCount))
-            setSymbolCount(validateCount(data.symbolCount))
-            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-        })
-    },[])
+    // useEffect(()=>{
+    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
+    //         setUppercaseCount(validateCount(data.uppercaseCount))
+    //         setLowercaseCount(validateCount(data.lowercaseCount))
+    //         setDigitCount(validateCount(data.digitCount))
+    //         setSymbolCount(validateCount(data.symbolCount))
+    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+    //     })
+    // },[])
     return ( 
         <div className="main">
             <nav>
