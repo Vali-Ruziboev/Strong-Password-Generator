@@ -12,11 +12,12 @@ const validateCount = (value)=>{
 }
 
 const Main = () => {
-    const [uppercaseCount, setUppercaseCount] = useState(0)
-    const [lowercaseCount, setLowercaseCount] = useState(0)
-    const [digitCount, setDigitCount] = useState(0)
-    const [symbolCount, setSymbolCount] = useState(0)
+    const [uppercaseCount, setUppercaseCount] = useState(4)
+    const [lowercaseCount, setLowercaseCount] = useState(6)
+    const [digitCount, setDigitCount] = useState(3)
+    const [symbolCount, setSymbolCount] = useState(2)
     const [passLength, setPassLength] = useState(0)
+    const [randomPass, setRandomPass] = useState('')
     // const handleCount = (e, Function, value)=>{
     //     Function(Number(e.target.value))
     //     data[value] = Number(e.target.value)
@@ -38,8 +39,33 @@ const Main = () => {
         return String.fromCharCode(random)
     }
     const generateSymbol = ()=>{
-        const symbolsArr = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '[', ']', '^', '_', '`', '{', '|', '}', '~']
-        return symbolsArr[Math.floor(Math.random()*symbolsArr.length)]
+        // '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '[', ']', '^', '_', '`', '{', '|', '}', '~', '\'
+        const symbolsArr = [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58,59,60,61,62,63,64, 91, 92, 93, 94, 95, 96, 123, 124, 125, 126]
+        return String.fromCharCode(symbolsArr[Math.floor(Math.random()*symbolsArr.length)])
+    }
+    const generateRandomPass = ()=>{
+        let passArr = []
+        const occurrence = (element, Function, array)=>{
+            if(element){
+                for(let i=0; i<element; i++){
+                    array.push(Function())
+                }
+            }
+        }
+        occurrence(uppercaseCount, generateUpperCase, passArr)
+        occurrence(lowercaseCount, generateLowerCase, passArr)
+        occurrence(digitCount, generateDigit, passArr)
+        occurrence(symbolCount, generateSymbol, passArr)
+        const shuffleArray = array => {
+            for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              const temp = array[i];
+              array[i] = array[j];
+              array[j] = temp;
+            }
+          }
+        shuffleArray(passArr)
+        return passArr.join('')
     }
     generateUpperCase()
     generateLowerCase()
@@ -47,7 +73,8 @@ const Main = () => {
     generateSymbol()
     const handleSubmit = (e)=>{
         e.preventDefault()
-        console.log(new Array(6));
+        const password = generateRandomPass()
+        setRandomPass(password)
     }
     // useEffect(()=>{
     //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
@@ -92,7 +119,7 @@ const Main = () => {
                     <div className="result">
                         <label htmlFor="result">Password <div>Length: <span className="length">{passLength}</span></div></label>
                         <div className="password">
-                            <input type="input" max='100'/>
+                            <input value={randomPass} onChange={(e)=>setRandomPass(e.target.value)}  type="input" max='100'/>
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                         </div>
                     </div>
