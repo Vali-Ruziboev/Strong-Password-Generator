@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 /* eslint-disable no-undef */
 
-// let storage = chrome.storage.local;
-// let data = {}
+let storage = chrome.storage.local;
+let data = {}
 
 const validateCount = (value)=>{
     if(value===undefined){
@@ -12,21 +12,26 @@ const validateCount = (value)=>{
 }
 
 const Main = () => {
-    const [uppercaseCount, setUppercaseCount] = useState(4)
-    const [lowercaseCount, setLowercaseCount] = useState(6)
-    const [digitCount, setDigitCount] = useState(3)
+    const [uppercaseCount, setUppercaseCount] = useState(2)
+    const [lowercaseCount, setLowercaseCount] = useState(2)
+    const [digitCount, setDigitCount] = useState(2)
     const [symbolCount, setSymbolCount] = useState(2)
-    const [passLength, setPassLength] = useState(0)
+    const [passLength, setPassLength] = useState(8)
     const [passInputLength, setPassInputLength] = useState(0)
     const [randomPass, setRandomPass] = useState('')
-    // const handleCount = (e, Function, value)=>{
-    //     Function(Number(e.target.value))
-    //     data[value] = Number(e.target.value)
-    //     storage.set(data)
-    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-    //     })
-    // }
+    const [isRandom, setIsRandom] = useState(false)
+
+    // Write the changes to storage
+    const handleCount = (e, value, Function)=>{
+        if(Function){
+            Function(Number(e))
+        }
+        data[value] = Number(e)
+        storage.set(data)
+        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
+            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+        })
+    }
     const generateUpperCase =()=>{
         const random = Math.floor(Math.random()*26)+65
         return String.fromCharCode(random)
@@ -68,31 +73,89 @@ const Main = () => {
         shuffleArray(passArr)
         return passArr.join('')
     }
-    generateUpperCase()
-    generateLowerCase()
-    generateDigit()
-    generateSymbol()
+
+    // Refs for Password input
     const inputpass = useRef()
+    // Ref for Random Checkbox
+    const random = useRef()
+    // Upper Case range
+    const upperCaseRef = useRef()
+    // Lower Case range
+    const lowerCaseRef = useRef()
+    // Digits range
+    const digitsRef = useRef()
+    // Symbols range
+    const symbolsRef = useRef()
+
+    // generates random number between 2 and 12
+    const randomCount = ()=>Math.floor((Math.random()*10)+2)
+
+    // Function for Generate Button
     const handleSubmit = (e)=>{
         e.preventDefault()
+        if(isRandom){
+            setUppercaseCount(randomCount())
+            setLowercaseCount(randomCount())
+            setDigitCount(randomCount())
+            setSymbolCount(randomCount())
+            setTimeout(() => {      
+                handleCount(uppercaseCount, 'uppercaseCount', null)
+                handleCount(lowercaseCount, 'lowercaseCount', null)
+                handleCount(digitCount, 'digitCount', null)
+                handleCount(symbolCount, 'symbolCount', null)
+            }, 0);
+        }
         const password = generateRandomPass()
         setRandomPass(password)
-        // setPassInputLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+        setPassInputLength(validateCount(uppercaseCount)+validateCount(lowercaseCount)+validateCount(digitCount)+validateCount(symbolCount))
     }
-    // useEffect(()=>{
-    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-    //         setUppercaseCount(validateCount(data.uppercaseCount))
-    //         setLowercaseCount(validateCount(data.lowercaseCount))
-    //         setDigitCount(validateCount(data.digitCount))
-    //         setSymbolCount(validateCount(data.symbolCount))
-    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-    //     })
-    // },[])
+
+    // Get all data from storage before render
+    useEffect(()=>{
+        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
+            setUppercaseCount(validateCount(data.uppercaseCount))
+            setLowercaseCount(validateCount(data.lowercaseCount))
+            setDigitCount(validateCount(data.digitCount))
+            setSymbolCount(validateCount(data.symbolCount))
+            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+
+                // check if random checkbox is checked or not
+                if(data.isRandom === undefined){
+                    data['isRandom'] = isRandom
+                    storage.set(data)
+                }
+                else if(data.isRandom === true){
+                    setIsRandom(true)
+                    random.current.checked = true
+                }
+        })
+    },[])
+
+    // Reset Button Function
     const handleReset = ()=>{
         setUppercaseCount(2)
         setLowercaseCount(2)
         setDigitCount(2)
         setSymbolCount(2)
+        setIsRandom(false)
+        random.current.checked = false
+        data['isRandom'] = false
+        storage.set(data)
+        setTimeout(() => {
+            handleCount(uppercaseCount, 'uppercaseCount', null)
+            handleCount(lowercaseCount, 'lowercaseCount', null)
+            handleCount(digitCount, 'digitCount', null)
+            handleCount(symbolCount, 'symbolCount', null)
+            console.log(uppercaseCount, lowercaseCount, digitCount,symbolCount);
+        }, 0);
+    }
+
+    // Random Checkbox Function
+    const handleRandom = ()=>{
+        data['isRandom'] = !isRandom
+        storage.set(data)
+        setIsRandom(!isRandom)
+
     }
     return ( 
         <div className="main">
@@ -106,23 +169,23 @@ const Main = () => {
                             <legend>
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Uppercase letters <div>Count: <span className="length">{uppercaseCount}</span></div>
                             </legend>
-                            <input onChange={(e)=>handleCount(e, setUppercaseCount, 'uppercaseCount')} value={uppercaseCount} type="range" max='100'/>
+                            <input ref={upperCaseRef} onChange={(e)=>handleCount(e.target.value, 'uppercaseCount', setUppercaseCount)} value={uppercaseCount} type="range" max='100'/>
                         </fieldset>
                         <fieldset>
                             <legend><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Lowercase letters <div>Count: <span className="length">{lowercaseCount}</span></div></legend>
-                            <input onChange={(e)=>handleCount(e, setLowercaseCount, 'lowercaseCount')} value={lowercaseCount} type="range" max='100'/>
+                            <input ref={lowerCaseRef} onChange={(e)=>handleCount(e.target.value, 'lowercaseCount', setLowercaseCount)} value={lowercaseCount} type="range" max='100'/>
                         </fieldset>
                         <fieldset>
                             <legend><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Digits <div>Count: <span className="length">{digitCount}</span></div></legend>
-                            <input onChange={(e)=>handleCount(e, setDigitCount, 'digitCount')} value={digitCount} type="range" max='100'/>
+                            <input ref={digitsRef} onChange={(e)=>handleCount(e.target.value, 'digitCount', setDigitCount)} value={digitCount} type="range" max='100'/>
                         </fieldset>
                         <fieldset>
                             <legend><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Symbols  <div>Count: <span className="length">{symbolCount}</span></div></legend>
-                            <input name="symbolCount" onChange={(e)=>handleCount(e, setSymbolCount, 'symbolCount')} value={symbolCount} type="range" max='100'/>
+                            <input ref={symbolsRef} name="symbolCount" onChange={(e)=>handleCount(e.target.value, 'symbolCount',  setSymbolCount)} value={symbolCount} type="range" max='100'/>
                         </fieldset>
                         <div className="charlength">Character length: <span className="length">{passLength}</span></div>
                         <div className="checkboxes">
-                            <label><input type="checkbox" name="length"/>  Random</label>
+                            <label><input ref={random} onClick={handleRandom} type="checkbox" name="length"/>  Random</label>
                             <button onClick={handleReset} type="reset">Reset</button>
                         </div>
                     </div>
