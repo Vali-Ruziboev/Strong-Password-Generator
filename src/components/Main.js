@@ -97,17 +97,19 @@ const Main = () => {
             setUppercaseCount(randomCount())
             setLowercaseCount(randomCount())
             setDigitCount(randomCount())
-            setSymbolCount(randomCount())
-            setTimeout(() => {      
-                handleCount(uppercaseCount, 'uppercaseCount', null)
-                handleCount(lowercaseCount, 'lowercaseCount', null)
-                handleCount(digitCount, 'digitCount', null)
-                handleCount(symbolCount, 'symbolCount', null)
-            }, 0);
+            setSymbolCount(randomCount()) 
+            handleCount(uppercaseCount, 'uppercaseCount', null)
+            handleCount(lowercaseCount, 'lowercaseCount', null)
+            handleCount(digitCount, 'digitCount', null)
+            handleCount(symbolCount, 'symbolCount', null)
+            const password = generateRandomPass()
+            setRandomPass(password)
+            setPassInputLength(validateCount(uppercaseCount)+validateCount(lowercaseCount)+validateCount(digitCount)+validateCount(symbolCount))
+        }else{
+            const password = generateRandomPass()
+            setRandomPass(password)
+            setPassInputLength(validateCount(uppercaseCount)+validateCount(lowercaseCount)+validateCount(digitCount)+validateCount(symbolCount))
         }
-        const password = generateRandomPass()
-        setRandomPass(password)
-        setPassInputLength(validateCount(uppercaseCount)+validateCount(lowercaseCount)+validateCount(digitCount)+validateCount(symbolCount))
     }
 
     // Get all data from storage before render
@@ -142,10 +144,10 @@ const Main = () => {
         data['isRandom'] = false
         storage.set(data)
         setTimeout(() => {
-            handleCount(uppercaseCount, 'uppercaseCount', null)
-            handleCount(lowercaseCount, 'lowercaseCount', null)
-            handleCount(digitCount, 'digitCount', null)
-            handleCount(symbolCount, 'symbolCount', null)
+            handleCount(2, 'uppercaseCount', null)
+            handleCount(2, 'lowercaseCount', null)
+            handleCount(2, 'digitCount', null)
+            handleCount(2, 'symbolCount', null)
             console.log(uppercaseCount, lowercaseCount, digitCount,symbolCount);
         }, 0);
     }
