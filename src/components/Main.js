@@ -49,7 +49,7 @@ const Main = () => {
         const symbolsArr = [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58,59,60,61,62,63,64, 91, 92, 93, 94, 95, 96, 123, 124, 125, 126]
         return String.fromCharCode(symbolsArr[Math.floor(Math.random()*symbolsArr.length)])
     }
-    const generateRandomPass = ()=>{
+    const generateRandomPass = (uppercaseCount, lowercaseCount, digitCount, symbolCount)=>{
         let passArr = []
         const occurrence = (element, Function, array)=>{
             if(element){
@@ -94,19 +94,23 @@ const Main = () => {
     const handleSubmit = (e)=>{
         e.preventDefault()
         if(isRandom){
-            setUppercaseCount(randomCount())
-            setLowercaseCount(randomCount())
-            setDigitCount(randomCount())
-            setSymbolCount(randomCount()) 
-            handleCount(uppercaseCount, 'uppercaseCount', null)
-            handleCount(lowercaseCount, 'lowercaseCount', null)
-            handleCount(digitCount, 'digitCount', null)
-            handleCount(symbolCount, 'symbolCount', null)
-            const password = generateRandomPass()
+            const f = randomCount()
+            const s = randomCount()
+            const t = randomCount()
+            const r = randomCount()
+            setUppercaseCount(f)
+            setLowercaseCount(s)
+            setDigitCount(t)
+            setSymbolCount(r) 
+            handleCount(f, 'uppercaseCount', null)
+            handleCount(s, 'lowercaseCount', null)
+            handleCount(t, 'digitCount', null)
+            handleCount(r, 'symbolCount', null)
+            const password = generateRandomPass(f, s, t, r)
             setRandomPass(password)
-            setPassInputLength(validateCount(uppercaseCount)+validateCount(lowercaseCount)+validateCount(digitCount)+validateCount(symbolCount))
+            setPassInputLength(validateCount(f)+validateCount(s)+validateCount(t)+validateCount(r))
         }else{
-            const password = generateRandomPass()
+            const password = generateRandomPass(uppercaseCount, lowercaseCount, digitCount, symbolCount)
             setRandomPass(password)
             setPassInputLength(validateCount(uppercaseCount)+validateCount(lowercaseCount)+validateCount(digitCount)+validateCount(symbolCount))
         }
@@ -195,7 +199,7 @@ const Main = () => {
                         <label htmlFor="result">Password <div>Length: <span className="length">{passInputLength}</span></div></label>
                         <div className="password">
                             <input ref={inputpass} value={randomPass} onChange={(e)=>{return(setRandomPass(e.target.value), setPassInputLength(e.target.value.length))}}  type="input" max='100'/>
-                            <svg onClick={()=>navigator.clipboard.writeText(inputpass.current.value)} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            <svg onClick={()=>{return (navigator.clipboard.writeText(inputpass.current.value), setRandomPass(''))}} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                         </div>
                     </div>
                     <button>Generate</button>
