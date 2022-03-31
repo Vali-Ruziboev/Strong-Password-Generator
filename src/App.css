@@ -82,11 +82,29 @@ legend{
   display: flex;
   align-items: center;
   width: 98%;
+  position: relative;
 }
 legend svg{
   fill:var(--icons);
   cursor: pointer;
 }
+.pattern{
+  width: max-content;
+  margin: 0;
+}
+.pattern:hover::before{
+  content: attr(pattern);
+  max-width: 10rem;
+  background-color: rgba(255, 255 , 255, 0.6);
+  backdrop-filter: blur(3px);
+  position:absolute;
+  left: 30px;
+  padding: 0.3rem;
+  box-shadow: var(--shadow);
+  word-wrap: break-word;
+  font-style:italic;
+  border-radius: 5px;
+} 
 legend div{
   margin-left: auto;
   

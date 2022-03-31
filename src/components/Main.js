@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 /* eslint-disable no-undef */
 
-let storage = chrome.storage.local;
-let data = {}
+// let storage = chrome.storage.local;
+// let data = {}
 
 const validateCount = (value)=>{
     if(value===undefined){
@@ -26,11 +26,11 @@ const Main = () => {
         if(Function){
             Function(Number(e))
         }
-        data[value] = Number(e)
-        storage.set(data)
-        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-        })
+        // data[value] = Number(e)
+        // storage.set(data)
+        // storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
+        //     setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+        // })
     }
     const generateUpperCase =()=>{
         const random = Math.floor(Math.random()*26)+65
@@ -117,25 +117,25 @@ const Main = () => {
     }
 
     // Get all data from storage before render
-    useEffect(()=>{
-        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
-            setUppercaseCount(validateCount(data.uppercaseCount))
-            setLowercaseCount(validateCount(data.lowercaseCount))
-            setDigitCount(validateCount(data.digitCount))
-            setSymbolCount(validateCount(data.symbolCount))
-            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+    // useEffect(()=>{
+    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
+    //         setUppercaseCount(validateCount(data.uppercaseCount))
+    //         setLowercaseCount(validateCount(data.lowercaseCount))
+    //         setDigitCount(validateCount(data.digitCount))
+    //         setSymbolCount(validateCount(data.symbolCount))
+    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
 
-                // check if random checkbox is checked or not
-                if(data.isRandom === undefined){
-                    data['isRandom'] = isRandom
-                    storage.set(data)
-                }
-                else if(data.isRandom === true){
-                    setIsRandom(true)
-                    random.current.checked = true
-                }
-        })
-    },[])
+    //             // check if random checkbox is checked or not
+    //             if(data.isRandom === undefined){
+    //                 data['isRandom'] = isRandom
+    //                 storage.set(data)
+    //             }
+    //             else if(data.isRandom === true){
+    //                 setIsRandom(true)
+    //                 random.current.checked = true
+    //             }
+    //     })
+    // },[])
 
     // Reset Button Function
     const handleReset = ()=>{
@@ -147,13 +147,12 @@ const Main = () => {
         random.current.checked = false
         data['isRandom'] = false
         storage.set(data)
-        setTimeout(() => {
-            handleCount(2, 'uppercaseCount', null)
-            handleCount(2, 'lowercaseCount', null)
-            handleCount(2, 'digitCount', null)
-            handleCount(2, 'symbolCount', null)
-            console.log(uppercaseCount, lowercaseCount, digitCount,symbolCount);
-        }, 0);
+        handleCount(2, 'uppercaseCount', null)
+        handleCount(2, 'lowercaseCount', null)
+        handleCount(2, 'digitCount', null)
+        handleCount(2, 'symbolCount', null)
+        setRandomPass('')
+        setPassInputLength(0)
     }
 
     // Random Checkbox Function
@@ -173,20 +172,36 @@ const Main = () => {
                     <div className="inputs">
                         <fieldset>
                             <legend>
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Uppercase letters <div>Count: <span className="length">{uppercaseCount}</span></div>
+                                <div className="pattern" pattern = 'Pattern: A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> 
+                                </div>
+                                Uppercase letters 
+                                <div>Count: <span className="length">{uppercaseCount}</span></div>
                             </legend>
                             <input ref={upperCaseRef} onChange={(e)=>handleCount(e.target.value, 'uppercaseCount', setUppercaseCount)} value={uppercaseCount} type="range" max='100'/>
                         </fieldset>
                         <fieldset>
-                            <legend><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Lowercase letters <div>Count: <span className="length">{lowercaseCount}</span></div></legend>
+                            <legend>
+                                <div className="pattern" pattern = 'Pattern: a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> 
+                                </div>
+                                Lowercase letters <div>Count: <span className="length">{lowercaseCount}</span></div></legend>
                             <input ref={lowerCaseRef} onChange={(e)=>handleCount(e.target.value, 'lowercaseCount', setLowercaseCount)} value={lowercaseCount} type="range" max='100'/>
                         </fieldset>
                         <fieldset>
-                            <legend><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Digits <div>Count: <span className="length">{digitCount}</span></div></legend>
+                            <legend>
+                            <div className="pattern" pattern = 'Pattern: 0,1,2,3,4,5,6,7,8,9'>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> 
+                            </div>
+                            Digits <div>Count: <span className="length">{digitCount}</span></div></legend>
                             <input ref={digitsRef} onChange={(e)=>handleCount(e.target.value, 'digitCount', setDigitCount)} value={digitCount} type="range" max='100'/>
                         </fieldset>
                         <fieldset>
-                            <legend><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> Symbols  <div>Count: <span className="length">{symbolCount}</span></div></legend>
+                            <legend>
+                                <div className="pattern" pattern="Pattern: \!#$%&'()*+,-./:;<=>?[]^_`|{}~">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg> 
+                                </div>
+                                Symbols  <div>Count: <span className="length">{symbolCount}</span></div></legend>
                             <input ref={symbolsRef} name="symbolCount" onChange={(e)=>handleCount(e.target.value, 'symbolCount',  setSymbolCount)} value={symbolCount} type="range" max='100'/>
                         </fieldset>
                         <div className="charlength">Character length: <span className="length">{passLength}</span></div>
@@ -199,7 +214,7 @@ const Main = () => {
                         <label htmlFor="result">Password <div>Length: <span className="length">{passInputLength}</span></div></label>
                         <div className="password">
                             <input ref={inputpass} value={randomPass} onChange={(e)=>{return(setRandomPass(e.target.value), setPassInputLength(e.target.value.length))}}  type="input" max='100'/>
-                            <svg onClick={()=>{return (navigator.clipboard.writeText(inputpass.current.value), setRandomPass(''))}} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            <svg onClick={()=>{return (navigator.clipboard.writeText(inputpass.current.value), setRandomPass(''),setPassInputLength(0))}} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                         </div>
                     </div>
                     <button>Generate</button>
