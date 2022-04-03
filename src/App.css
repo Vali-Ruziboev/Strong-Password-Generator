@@ -24,6 +24,9 @@ nav{
 nav svg{
   cursor: pointer;
 }
+.back{
+  justify-content: flex-start !important;
+}
 .main{
   width: 88%;
   display: block;
