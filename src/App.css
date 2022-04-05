@@ -5,9 +5,9 @@
 }
 body{
   min-width: 300px !important;
-  min-height: 525px !important;
+  min-height: 535px !important;
   max-width: 300px !important;
-  max-height: 525px !important;
+  max-height: 535px !important;
 }
 nav{
   position: fixed;
@@ -184,6 +184,7 @@ svg{
 .passwords{
   box-shadow: var(--shadow);
   padding: 0.2rem;
+  background-color: white;
 }
 .passwods_body{
   display: flex;
@@ -211,4 +212,8 @@ svg{
 }
 .passwords_footer{
   display: block !important;
+}
+
+.invalid{
+  color: red;
 }
