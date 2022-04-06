@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import Password from "./Password";
+import { PasswordContext } from "../contexts/PasswordContext";
+import { useContext } from "react";
 
 const History = () => {
+    const {password, dispatch} = useContext(PasswordContext)
     return ( 
     <div className="main">
         <nav className="back">
@@ -10,7 +13,7 @@ const History = () => {
             </Link>
         </nav>
         <main>
-            <Password />
+            <Password password={password} />
         </main>
     </div> );
 }

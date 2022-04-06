@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SimpleReactValidator from 'simple-react-validator';
 import useForceUpdate from "use-force-update";
+import { PasswordContext } from "../contexts/PasswordContext";
 /* eslint-disable no-undef */
 
-let storage = chrome.storage.local;
-let data = {}
+// let storage = chrome.storage.local;
+// let data = {}
 
 const validateCount = (value)=>{
     if(value===undefined){
@@ -27,17 +28,20 @@ const Main = () => {
     const [validator] = useState(new SimpleReactValidator());
     const forceUpdate = useForceUpdate();
 
+    // reducers
+    const {dispatch} = useContext(PasswordContext)
+
     // Write the changes to storage
-    const handleCount = (e, value, Function)=>{
-        if(Function){
-            Function(Number(e))
-        }
-        data[value] = Number(e)
-        storage.set(data)
-        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-        })
-    }
+    // const handleCount = (e, value, Function)=>{
+    //     if(Function){
+    //         Function(Number(e))
+    //     }
+    //     data[value] = Number(e)
+    //     storage.set(data)
+    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
+    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+    //     })
+    // }
     const generateUpperCase =()=>{
         const random = Math.floor(Math.random()*26)+65
         return String.fromCharCode(random)
@@ -128,25 +132,25 @@ const Main = () => {
     }
 
     // Get all data from storage before render
-    useEffect(()=>{
-        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
-            setUppercaseCount(validateCount(data.uppercaseCount))
-            setLowercaseCount(validateCount(data.lowercaseCount))
-            setDigitCount(validateCount(data.digitCount))
-            setSymbolCount(validateCount(data.symbolCount))
-            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+    // useEffect(()=>{
+    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
+    //         setUppercaseCount(validateCount(data.uppercaseCount))
+    //         setLowercaseCount(validateCount(data.lowercaseCount))
+    //         setDigitCount(validateCount(data.digitCount))
+    //         setSymbolCount(validateCount(data.symbolCount))
+    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
 
-                // check if random checkbox is checked or not
-                if(data.isRandom === undefined){
-                    data['isRandom'] = isRandom
-                    storage.set(data)
-                }
-                else if(data.isRandom === true){
-                    setIsRandom(true)
-                    random.current.checked = true
-                }
-        })
-    },[])
+    //             // check if random checkbox is checked or not
+    //             if(data.isRandom === undefined){
+    //                 data['isRandom'] = isRandom
+    //                 storage.set(data)
+    //             }
+    //             else if(data.isRandom === true){
+    //                 setIsRandom(true)
+    //                 random.current.checked = true
+    //             }
+    //     })
+    // },[])
 
     // Reset Button Function
     const handleReset = ()=>{
@@ -172,6 +176,14 @@ const Main = () => {
         storage.set(data)
         setIsRandom(!isRandom)
 
+    }
+
+    // copy the generated password
+    const handleCopy = ()=>{
+        navigator.clipboard.writeText(inputpass.current.value)
+        setRandomPass('')
+        dispatch({type:'ADD_PASSWORD', password:inputpass.current.value})
+        setPassInputLength(0)
     }
     return ( 
         <div className="main">
@@ -230,7 +242,7 @@ const Main = () => {
                         <label htmlFor="result">Password <div>Length: <span className="length">{passInputLength}</span></div></label>
                         <div className="password">
                             <input ref={inputpass} value={randomPass} onChange={(e)=>{return(setRandomPass(e.target.value), setPassInputLength(e.target.value.length))}}  type="input" max='100'/>
-                            <svg onClick={()=>{return (navigator.clipboard.writeText(inputpass.current.value), setRandomPass(''),setPassInputLength(0))}} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                            <svg onClick={handleCopy} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                         </div>
                     </div>
                     <button>Generate</button>
