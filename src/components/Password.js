@@ -1,13 +1,14 @@
 import { useState } from "react";
 
-const Password = () => {
+const Password = ({password}) => {
     const [isHovered, setIsHovered] = useState(false)
-    return ( 
-        <div onMouseEnter={()=>setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)} className="passwords">
+    return (
+        password.map(pass=>{return(    
+        <div id={pass.id} onMouseEnter={()=>setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)} className="passwords" key={pass.id}>
             <div className="passwods_body">
                 <label>
                     <input type="checkbox" />
-                    Password
+                    {pass.password}
                 </label>
                 {isHovered&&
                     <div className="toolbar">
@@ -20,6 +21,7 @@ const Password = () => {
                 <p>Created: <span>Time</span></p>
             </div>
         </div>
+        )})
     );
 }
 
