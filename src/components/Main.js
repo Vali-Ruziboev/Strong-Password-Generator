@@ -180,10 +180,12 @@ const Main = () => {
 
     // copy the generated password
     const handleCopy = ()=>{
-        navigator.clipboard.writeText(inputpass.current.value)
-        setRandomPass('')
-        dispatch({type:'ADD_PASSWORD', password:inputpass.current.value})
-        setPassInputLength(0)
+        if(inputpass.current.value!==''){
+            navigator.clipboard.writeText(inputpass.current.value)
+            setRandomPass('')
+            dispatch({type:'ADD_PASSWORD', password:inputpass.current.value})
+            setPassInputLength(0)
+        }
     }
     return ( 
         <div className="main">
