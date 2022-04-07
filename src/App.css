@@ -133,7 +133,7 @@ legend div span,
   display: flex;
   align-items: center;
 }
-.checkboxes input{
+input[type='checkbox']{
   margin-right: 0.4rem;
 }
 .checkboxes button{

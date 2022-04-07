@@ -13,7 +13,11 @@ const History = () => {
             </Link>
         </nav>
         <main>
-            <Password password={password} />
+        {password.map(pass=>{
+            return(
+                <Password key={pass.id} id={pass.id} password={pass.password} />
+            )
+        })}
         </main>
     </div> );
 }
