@@ -15,7 +15,7 @@ const History = () => {
         <main>
         {password.map(pass=>{
             return(
-                <Password key={pass.id} id={pass.id} password={pass.password} />
+                <Password key={pass.id} id={pass.id} password={pass.password} dispatch={dispatch} />
             )
         })}
         </main>
