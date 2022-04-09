@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import Password from "./Password";
 import { PasswordContext } from "../contexts/PasswordContext";
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 
 const History = () => {
     const {password, dispatch} = useContext(PasswordContext)
+    const [checked, setChecked] = useState(false)
     return ( 
     <div className="main">
         <nav className="back">
@@ -15,10 +16,26 @@ const History = () => {
         <main>
         {password.map(pass=>{
             return(
-                <Password key={pass.id} id={pass.id} password={pass.password} dispatch={dispatch} />
+                <Password key={pass.id} id={pass.id} password={pass.password} dispatch={dispatch} checked={setChecked}/>
             )
         })}
         </main>
+        {checked&&
+            <footer>
+                <div className="select_all">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></svg>
+                    Select All
+                </div>
+                <div className="delete_all">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"/></svg>
+                    Delete
+                </div>
+                <div className="copy_all">
+                    <svg onClick={()=>navigator.clipboard.writeText(password)} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    Copy
+                </div>
+            </footer>
+        }
     </div> );
 }
 
