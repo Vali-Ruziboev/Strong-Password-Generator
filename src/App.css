@@ -33,7 +33,8 @@ nav svg{
   margin: 0 auto;
   padding: 1rem 0;
   padding-top: 3.5rem;
-  height: 100vh;
+  height:535px;
+  position: relative;
 }
 .inputs{
   height: max-content;
@@ -178,13 +179,16 @@ form button{
   color: white;
   cursor: pointer;
 }
-svg{
+svg,
+footer div{
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
-svg:hover{
+svg:hover,
+footer div:hover{
   transform: scale(1.3);
 }
+
 .passwords{
   box-shadow: var(--shadow);
   padding: 0.2rem;
@@ -218,7 +222,19 @@ svg:hover{
 .passwords_footer{
   display: block !important;
 }
-
 .invalid{
   color: red;
+}
+footer{
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  justify-content: space-around;
+  padding: 0.3rem 0;
+}
+footer div{
+  display: flex;
+  align-items: center;
 }

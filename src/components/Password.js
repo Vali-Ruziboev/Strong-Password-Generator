@@ -1,13 +1,23 @@
 import { useState } from "react";
 
 
-const Password = ({password, id, dispatch}) => {
+const Password = ({password, id, dispatch, checked }) => {
     const [isHovered, setIsHovered] = useState(false)
+    const handleCheck = ()=>{
+        const checkbox = document.querySelectorAll('.checkbox')
+        checkbox.forEach(check=>{
+            if(check.checked){
+                checked(true)
+            }
+        })
+        checked(false)
+        
+    }
     return (  
         <div id={id} onMouseEnter={()=>setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)} className="passwords" >
             <div className="passwods_body">
                 <label>
-                    <input type="checkbox" />
+                    <input onChange={handleCheck} className='checkbox' type="checkbox" />
                     {password}
                 </label>
                 {isHovered&&
