@@ -5,12 +5,15 @@ const Password = ({password, id, dispatch, checked }) => {
     const [isHovered, setIsHovered] = useState(false)
     const handleCheck = ()=>{
         const checkbox = document.querySelectorAll('.checkbox')
+        const list = []
         checkbox.forEach(check=>{
-            if(check.checked){
-                checked(true)
-            }
+            list.push(check)
         })
-        checked(false)
+        if(list.some(m=>m.checked)){
+            checked(true)
+        }else{
+            checked(false)
+        }
         
     }
     return (  
