@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import moment from "moment";
 
-
-const Password = ({password, id, dispatch, checked }) => {
+const Password = ({password, id, dispatch, checked, date }) => {
     const [isHovered, setIsHovered] = useState(false)
+    const [copiedDate, setCopieddate] = useState('')
     const handleCheck = ()=>{
         const checkbox = document.querySelectorAll('.checkbox')
         const list = []
@@ -16,6 +17,14 @@ const Password = ({password, id, dispatch, checked }) => {
         }
         
     }
+    useEffect(()=>{
+        const d = moment(date).fromNow();
+        setCopieddate(d)
+    },[])
+    setInterval(()=>{
+        const d = moment(date).fromNow();
+        setCopieddate(d)
+    }, 60000)
     return (  
         <div id={id} onMouseEnter={()=>setIsHovered(true)} onMouseLeave={()=>setIsHovered(false)} className="passwords" >
             <div className="passwods_body">
@@ -31,7 +40,7 @@ const Password = ({password, id, dispatch, checked }) => {
                 }
             </div>
             <div className="passwords_footer">
-                <p>Created: <span>Time</span></p>
+                <p>Copied <span>{copiedDate}</span></p>
             </div>
         </div>
     );

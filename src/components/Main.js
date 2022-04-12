@@ -183,7 +183,8 @@ const Main = () => {
         if(inputpass.current.value!==''){
             navigator.clipboard.writeText(inputpass.current.value)
             setRandomPass('')
-            dispatch({type:'ADD_PASSWORD', password:inputpass.current.value})
+            const date = new Date()
+            dispatch({type:'ADD_PASSWORD', password:inputpass.current.value, date})
             setPassInputLength(0)
         }
     }

@@ -4,6 +4,7 @@ export const PasswordReducer = ( state, action )=>{
         case 'ADD_PASSWORD':
             return[...state, {
                 password:action.password,
+                date:action.date,
                 id:uuid()
             }]
         case "REMOVE_PASSWORD":
