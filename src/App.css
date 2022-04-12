@@ -5,9 +5,9 @@
 }
 body{
   min-width: 300px !important;
-  min-height: 535px !important;
+  min-height: 540px !important;
   max-width: 300px !important;
-  max-height: 535px !important;
+  max-height: 540px !important;
 }
 nav{
   position: fixed;
@@ -20,6 +20,7 @@ nav{
   align-items: center;
   justify-content: flex-end;
   padding: 0 1rem;
+  background-color: rgba(244, 245, 246, 0.8);
 }
 nav svg{
   cursor: pointer;
@@ -33,8 +34,11 @@ nav svg{
   margin: 0 auto;
   padding: 1rem 0;
   padding-top: 3.5rem;
-  height:535px;
+  height:max-content;
   position: relative;
+}
+.extpad{
+  padding-bottom: 2rem;
 }
 .inputs{
   height: max-content;
@@ -233,6 +237,8 @@ footer{
   width: 300px;
   justify-content: space-around;
   padding: 0.3rem 0;
+  background-color: rgba(244, 245, 246, 0.8);
+  box-shadow: var(--shadow);
 }
 footer div{
   display: flex;
