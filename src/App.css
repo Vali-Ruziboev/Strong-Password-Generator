@@ -26,7 +26,16 @@ nav svg{
   cursor: pointer;
 }
 .back{
-  justify-content: flex-start !important;
+  justify-content: space-between !important;
+}
+.historyCheck{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.historyCheck input{
+  margin-left: 0.2rem;
+  cursor: pointer;
 }
 .main{
   width: 88%;

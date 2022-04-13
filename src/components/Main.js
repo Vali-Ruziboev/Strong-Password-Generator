@@ -5,8 +5,8 @@ import useForceUpdate from "use-force-update";
 import { PasswordContext } from "../contexts/PasswordContext";
 /* eslint-disable no-undef */
 
-// let storage = chrome.storage.local;
-// let data = {}
+let storage = chrome.storage.local;
+let data = {}
 
 const validateCount = (value)=>{
     if(value===undefined){
@@ -32,16 +32,16 @@ const Main = () => {
     const {dispatch} = useContext(PasswordContext)
 
     // Write the changes to storage
-    // const handleCount = (e, value, Function)=>{
-    //     if(Function){
-    //         Function(Number(e))
-    //     }
-    //     data[value] = Number(e)
-    //     storage.set(data)
-    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
-    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
-    //     })
-    // }
+    const handleCount = (e, value, Function)=>{
+        if(Function){
+            Function(Number(e))
+        }
+        data[value] = Number(e)
+        storage.set(data)
+        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount'], (data)=>{
+            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+        })
+    }
     const generateUpperCase =()=>{
         const random = Math.floor(Math.random()*26)+65
         return String.fromCharCode(random)
@@ -132,25 +132,25 @@ const Main = () => {
     }
 
     // Get all data from storage before render
-    // useEffect(()=>{
-    //     storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
-    //         setUppercaseCount(validateCount(data.uppercaseCount))
-    //         setLowercaseCount(validateCount(data.lowercaseCount))
-    //         setDigitCount(validateCount(data.digitCount))
-    //         setSymbolCount(validateCount(data.symbolCount))
-    //         setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
+    useEffect(()=>{
+        storage.get(['uppercaseCount', 'lowercaseCount', 'digitCount', 'symbolCount', 'isRandom'], (data)=>{
+            setUppercaseCount(validateCount(data.uppercaseCount))
+            setLowercaseCount(validateCount(data.lowercaseCount))
+            setDigitCount(validateCount(data.digitCount))
+            setSymbolCount(validateCount(data.symbolCount))
+            setPassLength(validateCount(data.uppercaseCount)+validateCount(data.lowercaseCount)+validateCount(data.digitCount)+validateCount(data.symbolCount))
 
-    //             // check if random checkbox is checked or not
-    //             if(data.isRandom === undefined){
-    //                 data['isRandom'] = isRandom
-    //                 storage.set(data)
-    //             }
-    //             else if(data.isRandom === true){
-    //                 setIsRandom(true)
-    //                 random.current.checked = true
-    //             }
-    //     })
-    // },[])
+                // check if random checkbox is checked or not
+                if(data.isRandom === undefined){
+                    data['isRandom'] = isRandom
+                    storage.set(data)
+                }
+                else if(data.isRandom === true){
+                    setIsRandom(true)
+                    random.current.checked = true
+                }
+        })
+    },[])
 
     // Reset Button Function
     const handleReset = ()=>{
@@ -180,13 +180,17 @@ const Main = () => {
 
     // copy the generated password
     const handleCopy = ()=>{
-        if(inputpass.current.value!==''){
-            navigator.clipboard.writeText(inputpass.current.value)
-            setRandomPass('')
-            const date = new Date()
-            dispatch({type:'ADD_PASSWORD', password:inputpass.current.value, date})
-            setPassInputLength(0)
-        }
+        storage.get(['history'], (d)=>{
+            if(inputpass.current.value!==''){
+                navigator.clipboard.writeText(inputpass.current.value)
+                setRandomPass('')
+                if(d.history!=='false'){
+                    const date = new Date()
+                    dispatch({type:'ADD_PASSWORD', password:inputpass.current.value, date})
+                }
+                setPassInputLength(0)
+            }
+        })
     }
     return ( 
         <div className="main">
