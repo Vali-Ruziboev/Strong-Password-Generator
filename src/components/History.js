@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
 import Password from "./Password";
 import { PasswordContext } from "../contexts/PasswordContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+
+/* eslint-disable no-undef */
+
+let storage = chrome.storage.local;
+let data = {}
 
 const History = () => {
     const {password, dispatch} = useContext(PasswordContext)
     const [checked, setChecked] = useState(false)
     const [isAllSelected, setIsAllSelected] = useState(false)
+    const [saveHistory, setSaveHistory] = useState(true)
     const handleSelectAll = ()=>{
         const checkbox = document.querySelectorAll('.checkbox')
         if(isAllSelected){
@@ -40,13 +46,20 @@ const History = () => {
         })
         navigator.clipboard.writeText(passList.join(', '))
     }
-    
+    useEffect(()=>{
+        storage.get(['history'], (d)=>{
+            if(d.history!==undefined){
+                setSaveHistory(d.history)
+            }
+        })
+    },[])
     return ( 
     <div className="main extpad">
         <nav className="back">
             <Link  to='/'>
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
             </Link>
+            <label  className="historyCheck">History <input checked={saveHistory} onClick={(e)=>{return(setSaveHistory(!saveHistory), data['history']=!saveHistory, storage.set(data))}} type="checkbox" /></label>
         </nav>
         <main>
         {password.sort((a,b)=>b.date.toString().localeCompare(a.date.toString())).map(pass=>{
