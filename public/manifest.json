@@ -1,6 +1,6 @@
 {
   "name":"Strong Password Generator",
-  "description": "Make your security stronger",
+  "description": "Strong and Secure Password Generator",
   "version": "0.1.0",
   "manifest_version": 3,
   "icons":{
