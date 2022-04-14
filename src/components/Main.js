@@ -183,11 +183,11 @@ const Main = () => {
         storage.get(['history'], (d)=>{
             if(inputpass.current.value!==''){
                 navigator.clipboard.writeText(inputpass.current.value)
-                setRandomPass('')
-                if(d.history!=='false'){
+                if(d.history!==false){
                     const date = new Date()
                     dispatch({type:'ADD_PASSWORD', password:inputpass.current.value, date})
                 }
+                setRandomPass('')
                 setPassInputLength(0)
             }
         })
