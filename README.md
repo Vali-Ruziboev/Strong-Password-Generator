@@ -40,6 +40,6 @@
 
 ## Author
 
-- Frontend Mentor - [@Vali-Ruziboev](https://www.frontendmentor.io/profile/Vali-Ruziboev)
-- Instagram - [valiruziboev](https://www.instagram.com/valiruziboev/)
+- Twitter - [Vali Ruziboev](https://twitter.com/Vali_Ruziboev)
+- Instagram - [valiruziboev](https://www.instagram.com/vali_ruziboev/)
 - Linkedin - [Vali Ruziboev](https://www.linkedin.com/in/vali-ruziboev/)
