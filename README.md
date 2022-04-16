@@ -3,7 +3,7 @@
 ## Table of contents
 
 - [Overview](#overview)
-  - [The features](#the-challenge)
+  - [The features](#the-features)
   - [Screenshot](#screenshot)
   - [Links](#links)
 - [Built with](#built-with)
@@ -28,7 +28,7 @@
 
 ### Links
 
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [Click here](https://chrome.google.com/webstore/detail/strong-password-generator/iklokmocgbiebajbeepaiafdeenahoga?hl=en&authuser=0)
 
 ### Built with
 
