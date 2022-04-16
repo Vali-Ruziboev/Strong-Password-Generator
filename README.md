@@ -1,4 +1,4 @@
-## Strong Password Generator
+## Strong Password Generator (Chrome Extension)
 
 ## Table of contents
 
@@ -28,7 +28,7 @@
 
 ### Links
 
-- Live Site URL: [Click here](https://chrome.google.com/webstore/detail/strong-password-generator/iklokmocgbiebajbeepaiafdeenahoga?hl=en&authuser=0)
+- Add to your chrome browser: [Click here](https://chrome.google.com/webstore/detail/strong-password-generator/iklokmocgbiebajbeepaiafdeenahoga?hl=en&authuser=0)
 
 ### Built with
 
